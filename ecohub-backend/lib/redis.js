@@ -4,10 +4,10 @@ import dotenv from "dotenv"
 dotenv.config()
 
 // Create Redis connection with error handling
-let redis;
+let redis = null;
 
 try {
-  if (process.env.UPSTASH_REDIS_URL) {
+  if (process.env.UPSTASH_REDIS_URL && process.env.UPSTASH_REDIS_URL.trim() !== '') {
     redis = new Redis(process.env.UPSTASH_REDIS_URL, {
       retryDelayOnFailover: 100,
       maxRetriesPerRequest: 3,
@@ -18,6 +18,7 @@ try {
 
     redis.on('error', (err) => {
       console.log('Redis connection error:', err.message);
+      redis = null; // Disable Redis on error
     });
 
     redis.on('connect', () => {
@@ -28,6 +29,7 @@ try {
   }
 } catch (error) {
   console.log('Redis initialization failed:', error.message);
+  redis = null;
 }
 
 // Export a safe Redis instance
