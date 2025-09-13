@@ -11,6 +11,11 @@ axiosInstance.interceptors.request.use(
 	(config) => {
 		console.log("Making request to:", config.url);
 		console.log("With credentials:", config.withCredentials);
+		// Add Authorization header if token exists
+		const token = localStorage.getItem('accessToken');
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
 		return config;
 	},
 	(error) => {

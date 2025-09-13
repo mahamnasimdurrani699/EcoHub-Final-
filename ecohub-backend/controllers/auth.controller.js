@@ -22,19 +22,10 @@ const storeRefreshToken = async(userId,refreshToken) => {
 
 const setCookies = (res, accessToken, refreshToken) => {
     console.log("Setting cookies for authentication");
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax", // Try lax instead of none
-        maxAge: 15 * 60 * 1000,
-    })
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax", // Try lax instead of none
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
-    console.log("Cookies set successfully");
+    // Return tokens in response body instead of cookies
+    res.setHeader('Access-Control-Expose-Headers', 'Authorization');
+    res.setHeader('Authorization', `Bearer ${accessToken}`);
+    console.log("Tokens set in headers");
 };
 
 export const signup =  async(req,res)=>{
@@ -58,6 +49,8 @@ export const signup =  async(req,res)=>{
             name: user.name,
             email: user.email,
             role: user.role,
+            accessToken: accessToken,
+            refreshToken: refreshToken
         });
     } catch (error) {
         console.log("Error in signup",error.message)
@@ -83,6 +76,8 @@ export const login =  async(req,res)=>{
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                accessToken: accessToken,
+                refreshToken: refreshToken
             });
         }else{
             res.status(401).json({message:"Invalid Email"});

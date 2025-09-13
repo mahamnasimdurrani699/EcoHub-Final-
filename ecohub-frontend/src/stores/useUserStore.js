@@ -18,6 +18,9 @@ export const useUserStore = create((set, get) => ({
 
 		try {
 			const res = await axios.post("/auth/signup", { name, email, password });
+			// Store tokens in localStorage
+			localStorage.setItem('accessToken', res.data.accessToken);
+			localStorage.setItem('refreshToken', res.data.refreshToken);
 			set({ user: res.data, loading: false });
 		} catch (error) {
 			set({ loading: false });
@@ -31,6 +34,9 @@ export const useUserStore = create((set, get) => ({
 		try {
 			const res = await axios.post("/auth/login", { email, password });
 			console.log("Login successful:", res.data);
+			// Store tokens in localStorage
+			localStorage.setItem('accessToken', res.data.accessToken);
+			localStorage.setItem('refreshToken', res.data.refreshToken);
 			set({ user: res.data, loading: false });
 		} catch (error) {
 			console.log("Login error:", error);
@@ -42,6 +48,8 @@ export const useUserStore = create((set, get) => ({
 	logout: async () => {
 		try {
 			await axios.post("/auth/logout");
+			localStorage.removeItem('accessToken');
+			localStorage.removeItem('refreshToken');
 			set({ user: null });
 		} catch (error) {
 			toast.error(error.response?.data?.message || "An error occurred during logout");
