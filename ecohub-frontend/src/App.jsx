@@ -21,7 +21,7 @@ import DetailPage from "./pages/DetailPage";
 import SearchProductPage from "./pages/SearchProductPage";
 
 function App() {
-	const { user, checkAuth, checkingAuth } = useUserStore();
+	const { user, checkAuth, checkingAuth, authChecked } = useUserStore();
 	const { getCartItems } = useCartStore();
 	
 	useEffect(() => {

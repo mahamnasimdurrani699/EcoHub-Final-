@@ -23,11 +23,7 @@ axiosInstance.interceptors.response.use(
 		return response;
 	},
 	(error) => {
-		if (error.response?.status === 401) {
-			// Handle unauthorized access
-			localStorage.removeItem('user');
-			window.location.href = '/login';
-		}
+		// Just return the error, don't redirect
 		return Promise.reject(error);
 	}
 );
