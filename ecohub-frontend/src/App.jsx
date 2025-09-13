@@ -26,13 +26,13 @@ function App() {
 	
 	useEffect(() => {
 		checkAuth();
-	}, [checkAuth]);
+	}, []); // Run only once on mount
 
 	useEffect(() => {
 		if (!user) return;
 
 		getCartItems();
-	}, [getCartItems, user]);
+	}, [user]); // Only depend on user, not getCartItems
 
 	if (checkingAuth) return <LoadingSpinner/>;
 
