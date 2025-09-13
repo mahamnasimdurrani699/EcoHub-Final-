@@ -24,14 +24,14 @@ const setCookies = (res, accessToken, refreshToken) => {
     console.log("Setting cookies for authentication");
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: true, // Always secure in production
-        sameSite: "none", // Allow cross-origin cookies
+        secure: true,
+        sameSite: "lax", // Try lax instead of none
         maxAge: 15 * 60 * 1000,
     })
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: true, // Always secure in production
-        sameSite: "none", // Allow cross-origin cookies
+        secure: true,
+        sameSite: "lax", // Try lax instead of none
         maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     console.log("Cookies set successfully");
@@ -128,8 +128,8 @@ export const refreshToken = async(req,res)=>{
 
         res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: true, // Always secure in production
-        sameSite: "none", // Allow cross-origin cookies
+        secure: true,
+        sameSite: "lax", // Try lax instead of none
         maxAge: 15 * 60 * 1000,
         })
         res.json({message: "Token Refresh succesfully"});
