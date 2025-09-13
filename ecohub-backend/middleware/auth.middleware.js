@@ -3,8 +3,10 @@ import User from "../models/user.model.js";
 
 export const protectRoute = async(req,res,next) =>{
     try {
+        console.log("Auth middleware - cookies:", req.cookies);
         const accessToken = req.cookies.accessToken;
         if(!accessToken){
+            console.log("No access token found in cookies");
             return res.status(401).json({message:"unauthorized - no accesToken provided"});
         }
         try {

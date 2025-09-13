@@ -21,6 +21,7 @@ const storeRefreshToken = async(userId,refreshToken) => {
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
+    console.log("Setting cookies for authentication");
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true, // Always secure in production
@@ -33,6 +34,7 @@ const setCookies = (res, accessToken, refreshToken) => {
         sameSite: "none", // Allow cross-origin cookies
         maxAge: 7 * 24 * 60 * 60 * 1000,
     })
+    console.log("Cookies set successfully");
 };
 
 export const signup =  async(req,res)=>{
