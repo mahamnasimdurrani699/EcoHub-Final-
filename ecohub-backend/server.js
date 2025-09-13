@@ -34,6 +34,19 @@ app.use('/api/coupons', couponRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    message: 'EcoHub Backend API is running!', 
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      products: '/api/products',
+      categories: '/api/products/category/:category'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ message: 'Server is healthy', timestamp: new Date().toISOString() });
