@@ -72,10 +72,8 @@ export const useUserStore = create((set, get) => ({
 	},
 }));
 
-// TODO: Implement the axios interceptors for refreshing access token
-
 // Axios interceptor for token refresh
-// let refreshPromise = null;
+let refreshPromise = null;
 
 axios.interceptors.response.use(
 	(response) => response,
@@ -92,14 +90,19 @@ axios.interceptors.response.use(
 				}
 
 				// Start a new refresh process
-				refreshPromise = useUserStore.getState().refreshToken();
-				await refreshPromise;
-				refreshPromise = null;
-
-				return axios(originalRequest);
+				const store = useUserStore.getState();
+				if (store && store.refreshToken) {
+					refreshPromise = store.refreshToken();
+					await refreshPromise;
+					refreshPromise = null;
+					return axios(originalRequest);
+				}
 			} catch (refreshError) {
 				// If refresh fails, redirect to login or handle as needed
-				useUserStore.getState().logout();
+				const store = useUserStore.getState();
+				if (store && store.logout) {
+					store.logout();
+				}
 				return Promise.reject(refreshError);
 			}
 		}
