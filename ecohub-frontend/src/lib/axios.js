@@ -9,7 +9,8 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
 	(config) => {
-		// Add any auth headers if needed
+		console.log("Making request to:", config.url);
+		console.log("With credentials:", config.withCredentials);
 		return config;
 	},
 	(error) => {
