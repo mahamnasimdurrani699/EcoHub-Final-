@@ -23,6 +23,7 @@ import SearchProductPage from "./pages/SearchProductPage";
 function App() {
 	const { user, checkAuth, checkingAuth } = useUserStore();
 	const { getCartItems } = useCartStore();
+	
 	useEffect(() => {
 		checkAuth();
 	}, [checkAuth]);
