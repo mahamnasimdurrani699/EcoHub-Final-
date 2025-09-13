@@ -22,15 +22,15 @@ const storeRefreshToken = async(userId,refreshToken) => {
 
 const setCookies = (res, accessToken, refreshToken) => {
     res.cookie("accessToken", accessToken, {
-        httpOnly:true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite:"strict",
+        httpOnly: true,
+        secure: true, // Always secure in production
+        sameSite: "none", // Allow cross-origin cookies
         maxAge: 15 * 60 * 1000,
     })
     res.cookie("refreshToken", refreshToken, {
-        httpOnly:true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite:"strict",
+        httpOnly: true,
+        secure: true, // Always secure in production
+        sameSite: "none", // Allow cross-origin cookies
         maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 };
@@ -125,9 +125,9 @@ export const refreshToken = async(req,res)=>{
         const accessToken = jwt.sign({ userId: decoded.userId}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"});
 
         res.cookie("accessToken", accessToken, {
-        httpOnly:true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite:"strict",
+        httpOnly: true,
+        secure: true, // Always secure in production
+        sameSite: "none", // Allow cross-origin cookies
         maxAge: 15 * 60 * 1000,
         })
         res.json({message: "Token Refresh succesfully"});
