@@ -149,23 +149,25 @@ export const useProductStore = create((set, get) => ({
 				loading: false,
 			});
 		} catch (error) {
+			console.error("Error fetching all products:", error);
 			set({ error: "Failed to fetch products", loading: false });
-			toast.error(error.response.data.error || "Failed to fetch products");
+			toast.error(error.response?.data?.error || "Failed to fetch products");
 		}
 	},
 
 	fetchProductsByCategory: async (category) => {
 		set({ loading: true });
 		try {
-			const response = await axios.get(`/products/category/${category}`);
+			const response = await axios.get(`/products/category/${encodeURIComponent(category)}`);
 			set({
 				products: response.data.products,
 				filteredProducts: response.data.products,
 				loading: false,
 			});
 		} catch (error) {
+			console.error("Error fetching products by category:", error);
 			set({ error: "Failed to fetch products", loading: false });
-			toast.error(error.response.data.error || "Failed to fetch products");
+			toast.error(error.response?.data?.error || "Failed to fetch products");
 		}
 	},
 
